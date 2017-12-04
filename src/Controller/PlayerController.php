@@ -4,10 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Player;
 use App\Form\PlayerType;
-use Doctrine\ORM\EntityManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use App\AppEvent;
 
 class PlayerController extends Controller
 {
@@ -24,16 +23,19 @@ class PlayerController extends Controller
     /**
      * @Route(path="/new-player", name="player_new")
      */
-    public function newAction(Request $request, EntityManager $manager)
+    public function newAction(Request $request)
     {
-        $form = $this->createForm(PlayerType::class);
-
+        $player = $this->get(Player::class);
+        $form = $this->createForm(PlayerType::class, $player);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $player = $form->getData();
 
-            $manager->persist($player);
-            $manager->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $playerEvent = $this->get('app.player.event');
+            $playerEvent->setPlayer($player);
+
+            $dispatcher = $this->get('event_dispatcher');
+            $dispatcher->dispatch(AppEvent::PLAYER_ADD, $playerEvent);
 
             return $this->redirectToRoute('player_list');
         }

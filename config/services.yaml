@@ -35,3 +35,13 @@ services:
         class: App\Fight\FightHandler
         arguments:
           - "@damage_calculator"
+
+    App\PlayerSubscriber:
+        arguments: ['@doctrine.orm.entity_manager']
+
+    App\Entity\Player:
+        public: true
+
+    app.player.event:
+        class: App\PlayerEvent
+        public: true

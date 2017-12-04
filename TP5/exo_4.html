@@ -1,0 +1,83 @@
+<html>
+<head>
+<meta charset="UTF-8" />
+    <style>
+        body{
+            background: black;
+        }
+        h1{
+            color: greenyellow;
+            font-size: 2.5rem;
+        }
+        h2{
+            color: white;
+            font-size: 2rem;
+        }
+		h3 {
+            color: cyan;
+            font-size: 1.75rem;
+        }
+        hr{
+            color: yellow;
+        }
+        a{
+            color: cyan;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+<h1>Les evenements</h1>
+<h2>Création Classe des Event</h2>
+<h3>
+final class AppEvent{<br />
+    const PLAYER_ADD  = 'app.player.add';<br />
+	const PLAYER_EDIT = 'app.player.edit';<br />
+}</h3>
+<h2>Création event</h2>
+<h3>use Symfony\Component\EventDispatcher\Event;<br /><br />
+class PlayerEvent extends Event{<br />
+    private $player;<br />
+	//getter et setter<br />
+	}</h3>
+	<h2>Le dispatcher !</h2>
+	<h3>
+	    $playerEvent = $this->get('app.player.event');<br />//@OU en l'injectant dans la méthode du controlleur<br />
+        $dispatcher = $this->get('event_dispatcher');<br />
+        $dispatcher->dispatch(AppEvent::PLAYER_ADD, $playerEvent);<br />
+	</h3>
+	<h2>ma classe subscriber</h2>
+	<h3>
+	<?php<br />
+<br />
+namespace App\Subscriber;<br />
+<br />
+use App\AppEvent;<br />
+use App\Event\PlayerEvent;<br />
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;<br />
+<br />
+class PlayerSubscriber implements EventSubscriberInterface<br />
+{<br />
+    public static function getSubscribedEvents()<br />
+    {<br />
+        return array(<br />
+            AppEvent::PLAYER_ADD => 'playerAdd'<br />
+        );<br />
+    }<br />
+<br />
+    public function playerAdd(PlayerEvent $playerEvent){<br />
+<br />
+        echo 'ok ajout player';<br />
+    }<br />
+<br />
+}<br />
+	</h3>
+	<h2>dans le service yaml</h2>
+	<h3>    App\Subscriber\PlayerSubscriber:<br />
+        ____arguments: [ '@doctrine.orm.entity_manager']# si besoin </h3>
+	<a href="exo_1.html">Exo 1</a><br />
+<a href="exo_2.html">Exo 2</a><br />
+<a href="exo_3.html">Exo 3</a><br />
+<a href="exo_5.html">tp final</a><br />
+</body>
+</html>

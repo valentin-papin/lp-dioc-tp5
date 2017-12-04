@@ -1,0 +1,70 @@
+<html>
+<head>
+<meta charset="UTF-8" />
+    <style>
+        body{
+            background: black;
+        }
+        h1{
+            color: greenyellow;
+            font-size: 2.5rem;
+        }
+        h2{
+            color: white;
+            font-size: 2rem;
+        }
+		h3{
+            color: orange;
+            font-size: 1.5rem;
+        }
+        hr{
+            color: yellow;
+        }
+        a{
+            color: cyan;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+<h1>les Events</h1>
+<h2>composer req symfony/event-dispatcher</h2>
+<h2>Les form event</h2>
+<h3>
+
+</h3>
+<h3>
+use Symfony\Component\Form\FormEvent;<br />
+use Symfony\Component\Form\FormEvents;<br /><br />
+class PlayerType extends AbstractType<br />
+{<br />
+    public function buildForm(FormBuilderInterface $builder, array $options)<br />
+    {<br />
+        $builder<br />
+            ->add('name')<br />
+            ->add('age')<br />
+			->add('country')<br />
+            ->addEventListener(
+                FormEvents::PRE_SET_DATA,<br />
+                array($this, 'onPreSetData')
+            );<br />
+    }<br />
+<br />
+    public function onPreSetData(FormEvent $event)<br />
+    {<br />
+        $player = $event->getData();<br />
+        $form = $event->getForm();<br />
+<br />
+        if ($player->getId() !== null){<br />
+            $form->remove('name');<br />
+        }<br />
+		<br />
+		$form->add('submit');<br />
+    }<br />
+}<br />
+</h3>
+<a href="https://symfony.com/doc/current/form/events.html">Plus d'info</a><br /><br /><br />
+<a href="exo_1.html">back to exo 1</a><br />
+<a href="exo_4.html">Exo4</a><br />
+</body>
+</html>

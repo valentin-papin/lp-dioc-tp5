@@ -1,0 +1,71 @@
+<html>
+<head>
+<meta charset="UTF-8" />
+    <style>
+        body{
+            background: black;
+        }
+        h1{
+            color: greenyellow;
+            font-size: 2.5rem;
+        }
+        h2{
+            color: white;
+            font-size: 2rem;
+        }
+		h3{
+            color: cyan;
+            font-size: 1.5rem;
+        }
+        hr{
+            color: yellow;
+        }
+        a{
+            color: cyan;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+<h1>Les contraintes </h1>
+<h2>composer req validator</h2>
+<h3>
+use Symfony\Component\Validator\Constraints as Assert;<br />
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;<br />
+</h3>
+<hr><hr>
+<h2>Contrainte de classe</h2>
+<h3>@UniqueEntity(fields="myField", message="Hey, choose another one !")</h3>
+<hr>
+<h2>Contrainte de proprieté</h2>
+<h3>@Assert\NotBlank()<br />
+@Assert\Email()<br />
+ /**<br />
+     * @Assert\Length(<br />
+     *      min = 8,<br />
+     *      max = 20,<br />
+     *      minMessage = "Your name must be at least {{ limit }} characters long",<br />
+     *      maxMessage = "Your name cannot be longer than {{ limit }} characters"<br />
+     * )<br />
+     */<br />
+	 etc ...<br >/
+	 </h3>
+<a href="https://symfony.com/doc/current/reference/constraints.html">
+Toute les contraintes</a>
+<hr><hr><hr>
+<h2>Le validator en temps que service !</h2>
+<h3>$validator = $this->get('validator');<br />
+    $errors = $validator->validate($myEntity);<br /></h3>
+<h2>Une methode peux aussi etre une contrainte !</h2>
+<h3>
+/**<br />
+     * @Assert\IsTrue(message = "FirstName must be different to lastName")<br />
+     */<br />
+	public function isNameEqual()<br />
+	{<br />
+		return $this->firstName !== $this->lastName;<br />
+	}<br />
+	</h3>
+<a href="exo_2.html">Exo2</a>
+</body>
+</html>

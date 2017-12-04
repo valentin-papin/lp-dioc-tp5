@@ -9,6 +9,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class PlayerType extends AbstractType
 {
@@ -22,9 +24,21 @@ class PlayerType extends AbstractType
                 'multiple' => false,
                 'expanded' => false,
             ])
+            ->addEventListener( FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'))
             ->add('submit', SubmitType::class)
         ;
     }
+
+    public function onPreSetData(FormEvent $event)
+    {
+
+
+/*        if ($player->getId() !== null) {
+            $form->remove('name');
+        }*/
+    }
+
+
 
     public function configureOptions(OptionsResolver $resolver)
     {
